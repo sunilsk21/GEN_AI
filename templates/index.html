@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>BRO CODES</h2>
+
+        <form method="post">
+            <label>Recipient:</label>
+            <input type="text" name="recipient" required>
+
+            <label>Purpose:</label>
+            <input type="text" name="purpose" required>
+
+            <label>Tone:</label>
+            <select name="tone">
+                <option>Formal</option>
+                <option>Friendly</option>
+                <option>Professional</option>
+                <option>Apology</option>
+            </select>
+
+            <button type="submit">Generate Email</button>
+        </form>
+
+        {% if email %}
+        <div class="email-box">
+            <textarea id="generatedEmail" rows="12" readonly>{{ email }}</textarea>
+            <button id="copyBtn">Copy to Clipboard</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Copy to clipboard functionality
+        const copyBtn = document.getElementById("copyBtn");
+        if(copyBtn){
+            copyBtn.addEventListener("click", () => {
+                const emailText = document.getElementById("generatedEmail");
+                emailText.select();
+                emailText.setSelectionRange(0, 99999); // for mobile
+                navigator.clipboard.writeText(emailText.value);
+                copyBtn.textContent = "Copied!";
+                setTimeout(() => { copyBtn.textContent = "Copy to Clipboard"; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
